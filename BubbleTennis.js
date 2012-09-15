@@ -21,10 +21,30 @@ window.onload = function () {
 bgReady = true;
 };
 
+// RedL image
+var RedLReady = false;
+var RedLImage = new Image();
+RedLImage.src = "redl.png";
+
+RedLImage.onload = function () {
+	RedLReady = true;
+};
+var RedL = {
+	speed: 200 // movement in pixels per second
+};  //created and edited an aspect of the Red object
+RedL.x = canvas.width / 2;
+RedL.y = canvas.height / 2;
+
 // Draw everything
 var render = function () {
 ctx.fillStyle = grd;
 ctx.fillRect (0, 0, canvas.width, canvas.height);
+
+	if (RedLReady) {
+		ctx.drawImage(RedLImage, RedL.x, RedL.y);
+	}
+
+
 }
 
 // The main game loop
