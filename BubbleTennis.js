@@ -2,9 +2,10 @@
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = 212;
-canvas.width = document.body.clientWidth;
+canvas.width = document.body.clientWidth -50; 
+//kludge as detected screensize is larger than available screensize
 canvas.height = 280;
-canvas.height = document.body.clientHeight;
+canvas.height = document.body.clientHeight -50;
 //    http://github.com/willknott
 document.body.appendChild(canvas);
 
@@ -23,8 +24,8 @@ window.onload = function () {
 bgReady = true;
 };
 
+var InitialSpeed = 200;
 //////////Create Red Lemonade
-
 
 // RedL image
 var RedLReady = false;
@@ -36,11 +37,10 @@ RedLImage.onload = function () {
 };
 
 var RedL = {
-	speed: 200 // movement in pixels per second
+	speed: InitialSpeed // movement in pixels per second
 };  //created and edited an aspect of the Red object
-RedL.x = canvas.width / 2;
+RedL.x = canvas.width-RedLImage.width; // On the right hand side
 RedL.y = canvas.height / 2;
-
 
 /////// Make the computer listen to us...
 
@@ -77,6 +77,7 @@ ctx.fillRect (0, 0, canvas.width, canvas.height);
 // Update game objects called from the main function
 // delta = number of miliseconds between calls
 var update = function (delta) {
+	RedL.x = canvas.width-RedLImage.width; // Red always to one side
 	if (38 in keysDown) { // Player holding up
 		RedL.y -= RedL.speed * delta;
 	}
