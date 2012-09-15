@@ -1,12 +1,10 @@
 // Create the canvas
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
-canvas.width = 212;
 canvas.width = document.body.clientWidth -50; 
 //kludge as detected screensize is larger than available screensize
-canvas.height = 280;
 canvas.height = document.body.clientHeight -50;
-//    http://github.com/willknott
+
 document.body.appendChild(canvas);
 
 
@@ -25,7 +23,10 @@ bgReady = true;
 };
 
 var InitialSpeed = 200;
+var InPlay = true;
+
 //////////Create Red Lemonade
+
 
 // RedL image
 var RedLReady = false;
@@ -42,6 +43,17 @@ var RedL = {
 RedL.x = canvas.width-RedLImage.width; // On the right hand side
 RedL.y = canvas.height / 2;
 
+//Create the bubble
+var Bubble = {
+	speedx: InitialSpeed,
+	speedy: InitialSpeed,
+	diam: 10
+};
+Bubble.x = canvas.width/2;
+Bubble.y = canvas.height/2;
+	
+//Going to use an image later but
+
 /////// Make the computer listen to us...
 
 // Handle keyboard controls
@@ -56,20 +68,18 @@ addEventListener("keyup", function (e) {
 }, false);
 
 
-
-
-
-
 // Draw everything
 var render = function () {
 ctx.fillStyle = grd;
 ctx.fillRect (0, 0, canvas.width, canvas.height);
-
 	if (RedLReady) {
 		ctx.drawImage(RedLImage, RedL.x, RedL.y);
 	}
-
-
+	// draw the ball
+	ctx.beginPath();
+    ctx.arc(Bubble.x, Bubble.y, Bubble.diam, 0, 2 * Math.PI, false);
+	ctx.fillStyle = "black";
+    ctx.fill();
 }
 
 //// Where are our characters, the sums section....
@@ -77,6 +87,7 @@ ctx.fillRect (0, 0, canvas.width, canvas.height);
 // Update game objects called from the main function
 // delta = number of miliseconds between calls
 var update = function (delta) {
+//Update Red 
 	RedL.x = canvas.width-RedLImage.width; // Red always to one side
 	if (38 in keysDown) { // Player holding up
 		RedL.y -= RedL.speed * delta;
@@ -84,16 +95,37 @@ var update = function (delta) {
 	if (40 in keysDown) { // Player holding down
 		RedL.y += RedL.speed * delta;
 	}
-//////// Stop going off screen
+//////// Stop Red going off screen
 	if(RedL.y < 0) {
 		RedL.y = 0;
 	}
 	if(RedL.y > canvas.height-RedLImage.height) {
 		RedL.y = canvas.height-RedLImage.height;
 	}
-}
+	
+//Update Bubble
+	if (InPlay === true){
+		Bubble.x += Bubble.speedx * delta;
+		Bubble.y += Bubble.speedy * delta;
+	}
+	else{
+		Bubble.x = canvas.width/2;
+		Bubble.y = canvas.height/2;
+	};
+	
+	if(Bubble.y < 0 + Bubble.diam){
+		Bubble.y = 0 + Bubble.diam;
+		//Set to the edge
+		Bubble.speedy = -Bubble.speedy;
+	}
+	if(Bubble.y > canvas.height-Bubble.diam) {
+		Bubble.y = canvas.height-Bubble.diam;  //set to the edge
+		Bubble.speedy = -Bubble.speedy;
+	}
 
-///    will@willknott.ie
+	
+	
+};
 
 // The main game loop
 var main = function () {
