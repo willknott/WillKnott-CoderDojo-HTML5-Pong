@@ -1,0 +1,16 @@
+Bubble Tennis was created for a series of Classes in CoderDojo Mahon/NSC
+
+The reason for all the class1 to class 10 was to have incrementing code avilable for the kids (as the don't get the versioning system yet).
+
+Bubble Tennis (.html and .js) are versioned with the changes.
+
+Its a simple virtual tennis game between Red Lemonade and her sister White Lemonade. As the score rises their bottles fill with liquid (red and white). 
+
+The class was for HTML5 canvas games
+teaching
+Drawing to the canvas
+Animation
+Keyboard input
+Bounding / colision calculations
+loops and conditionals
+And its easy to adapt (virtual sizing and positioning for full screen regardless of screen size)
